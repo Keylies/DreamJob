@@ -1,0 +1,100 @@
+﻿@model DreamJob.ViewModels.HomeViewModel
+@{
+    Layout = null;
+    <script src="~/scripts/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Titre</title>
+</head>
+<body>
+    @*@Html.Action("Index", "Login")*@
+    <p>@Html.ActionLink("Se connecter", "Index", "Login")</p>
+    <p>@Html.ActionLink("Mon compte", "Index", "Account")</p>
+
+    <div>
+        @{
+            foreach (var tag in Model.ListeDesTags)
+            {
+                if (Model.Authentifie)
+                {
+                    
+                    var tagsUserIds = Model.ListeDesTagsUtilisateur.Select(u => u.id_tag);
+
+                    if (tagsUserIds.Contains(tag.id))
+                    {
+                        <label for="@tag.label">@tag.label</label>
+                        <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" checked />
+                    }
+                    else
+                    {
+                        <label for="@tag.label">@tag.label</label>
+                        <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
+                    }
+                }
+                else
+                {
+                    <label for="@tag.label">@tag.label</label>
+                    <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
+                }
+            }
+        }
+        <p>Mes tags</p>
+    </div>
+
+    <div id="offers">
+        @{
+            Html.RenderAction("AfficheOffres");
+        }
+    </div>
+
+    <script>
+
+        var tags = document.getElementsByName('tags');
+
+        updateOffers();
+
+        for (var i = 0, l = tags.length; i < l; i++)
+            tags[i].addEventListener("change", updateOffers, false);
+
+        function updateOffers() {
+
+            disableCheckboxes(true);
+
+            var filterValues = [];
+
+            for (var i = 0, l = tags.length; i < l; i++)
+                if (tags[i].checked) filterValues.push(tags[i].value);
+
+            if (filterValues.length == 0) filterValues = null;
+            else filterValues = JSON.stringify(filterValues);
+
+            console.log(filterValues);
+
+            $.ajax({
+                url: '@Url.Action("AfficheOffres")',
+                type: 'GET',
+                dataType: 'html',
+                contentType: "application/json; charset=utf-8",
+                data: { tags : filterValues },
+                success: function (result) {
+                    $('#offers').html(result);
+                    console.log("Offers updated");
+                    disableCheckboxes(false);
+                }
+            });
+        }
+
+        function disableCheckboxes(bool) {
+            for (var i = 0, l = tags.length; i < l; i++)
+                tags[i].disabled = bool;
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,79 @@
+﻿@model DreamJob.ViewModels.AccountViewModel
+@{
+    Layout = null;
+    <script src="~/scripts/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}
+
+<h2>Mon compte</h2>
+
+<div>
+    <h3>Choisir des filtres</h3>
+
+    @{
+        var tagsUserIds = Model.ListeDesTagsUtilisateur.Select(u => u.id_tag);
+
+        foreach (var tag in Model.ListeDesTags)
+        {
+
+            if (tagsUserIds.Contains(tag.id))
+            {
+                <label for="@tag.label">@tag.label</label>
+                <input type="checkbox" id="@tag.label" name="tags" value="@tag.id" checked/>
+            }
+            else
+            {
+                <label for="@tag.label">@tag.label</label>
+                <input type="checkbox" id="@tag.label" name="tags" value="@tag.id" />
+            }
+        }
+    }
+</div>
+
+<div>
+    <h3>Ajouter un filtre personnalisé</h3>
+
+
+</div>
+
+
+<script>
+
+    var tags = document.getElementsByName('tags');
+
+    for (var i = 0, l = tags.length; i < l; i++)
+        tags[i].addEventListener("change", updateUserTags, false);
+
+    function updateUserTags(e) {
+
+        disableCheckboxes(true);
+
+        if (!this.checked) {
+            $.ajax({
+                url: '@Url.Action("RemoveUserTag")',
+                type: 'GET',
+                data: { tagId: this.value },
+                success: function (result) {
+                    console.log("Tag removed : ", result);
+                    disableCheckboxes(false);
+                }
+            });
+        } else {
+            $.ajax({
+                url: '@Url.Action("AddUserTag")',
+                type: 'GET',
+                data: { tagId: this.value },
+                success: function (result) {
+                    console.log("Tag added : ", result);
+                    disableCheckboxes(false);
+                }
+            });
+        }
+    }
+
+    function disableCheckboxes(bool) {
+        for (var i = 0, l = tags.length; i < l; i++)
+            tags[i].disabled = bool;
+    }
+</script>
+
