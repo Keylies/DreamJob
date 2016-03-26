@@ -17,19 +17,33 @@
     <p>@Html.ActionLink("Se connecter", "Index", "Login")</p>
     <p>@Html.ActionLink("Mon compte", "Index", "Account")</p>
 
-    <div>
-        @{
-            foreach (var tag in Model.ListeDesTags)
-            {
-                if (Model.Authentifie)
-                {
-                    
-                    var tagsUserIds = Model.ListeDesTagsUtilisateur.Select(u => u.id_tag);
+    <h1>DreamJob</h1>
 
-                    if (tagsUserIds.Contains(tag.id))
+    <section>
+
+        <h2>Filtres de recherche</h2>
+
+        @{
+            if (Model.ListeDesTags.Any())
+            {
+                <button id="all-offers">Toutes les offres</button>
+
+                foreach (var tag in Model.ListeDesTags)
+                {
+                    if (Model.Authentifie)
                     {
-                        <label for="@tag.label">@tag.label</label>
-                        <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" checked />
+                        var tagsUserIds = Model.ListeDesTagsUtilisateur.Select(u => u.id_tag);
+
+                        if (tagsUserIds.Contains(tag.id))
+                        {
+                            <label for="@tag.label">@tag.label</label>
+                            <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" checked />
+                        }
+                        else
+                        {
+                            <label for="@tag.label">@tag.label</label>
+                            <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
+                        }
                     }
                     else
                     {
@@ -37,32 +51,47 @@
                         <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
                     }
                 }
-                else
+            } else
+            {
+                <p>Il n'y a pas de filtres de recherche.</p>
+            }
+
+            if (Model.Authentifie && Model.ListeDesCustomTags.Any())
+            {
+                <h3>Mes filtres personnalisés</h3>
+
+                foreach (var customTag in Model.ListeDesCustomTags)
                 {
-                    <label for="@tag.label">@tag.label</label>
-                    <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
+                    <label for="@customTag.label">@customTag.label</label>
+                    <input type="checkbox" id="@customTag.label" name="tags" value="@customTag.label" checked/>
                 }
             }
         }
-        <p>Mes tags</p>
-    </div>
+    </section>
 
-    <div id="offers">
-        @{
-            Html.RenderAction("AfficheOffres");
-        }
-    </div>
+    <section>
+        <h2>Offres d'emploi</h2>
+
+        <div id="offers">
+            @{
+                Html.RenderAction("AfficheOffres");
+            }
+        </div>
+    </section>
 
     <script>
 
         var tags = document.getElementsByName('tags');
+        var allOffersBut = document.getElementById('all-offers');
 
         updateOffers();
 
         for (var i = 0, l = tags.length; i < l; i++)
             tags[i].addEventListener("change", updateOffers, false);
 
-        function updateOffers() {
+        allOffersBut.addEventListener("click", allOffers, false);
+
+        function updateOffers(e) {
 
             disableCheckboxes(true);
 
@@ -90,7 +119,16 @@
             });
         }
 
+        function allOffers(e) {
+
+            for (var i = 0, l = tags.length; i < l; i++)
+                tags[i].checked = false;
+
+            updateOffers();
+        }
+
         function disableCheckboxes(bool) {
+
             for (var i = 0, l = tags.length; i < l; i++)
                 tags[i].disabled = bool;
         }

@@ -5,10 +5,10 @@
     <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 }
 
-<h2>Mon compte</h2>
+<h1>Mon compte</h1>
 
-<div>
-    <h3>Choisir des filtres</h3>
+<section>
+    <h2>Choisir des filtres</h2>
 
     @{
         var tagsUserIds = Model.ListeDesTagsUtilisateur.Select(u => u.id_tag);
@@ -28,22 +28,40 @@
             }
         }
     }
-</div>
+</section>
 
-<div>
-    <h3>Ajouter un filtre personnalisé</h3>
+<section>
+    <h2>Ajouter un filtre personnalisé</h2>
 
+    <label for="custom-tag-input">Votre filtre</label>
+    <input type="text" id="custom-tag-input" name="custom-tag-input" />
+    <button id="add-custom-tag">Créer</button>
 
-</div>
+    <div id="custom-tags">
+        @{
+            Html.RenderAction("AfficheCustomTags");
+        }
+    </div>
+
+</section>
 
 
 <script>
 
     var tags = document.getElementsByName('tags');
+    var customTagsWrapper = document.getElementById('custom-tags');
+    var addCustomTagBut = document.getElementById('add-custom-tag');
+    var customTagInput = document.getElementById('custom-tag-input');
+    var removeCustomTagButs = document.querySelectorAll('.remove-custom-tag');
 
     for (var i = 0, l = tags.length; i < l; i++)
         tags[i].addEventListener("change", updateUserTags, false);
 
+    addCustomTagBut.addEventListener("click", addCustomTag, false);
+
+    for (var i = 0, l = removeCustomTagButs.length; i < l; i++)
+        removeCustomTagButs[i].addEventListener("click", removeCustomTag, false);
+    
     function updateUserTags(e) {
 
         disableCheckboxes(true);
@@ -71,9 +89,63 @@
         }
     }
 
+    function addCustomTag(e) {
+
+        if (customTagInput.value != '') {
+
+            disableCheckboxes(true);
+
+            $.ajax({
+                url: '@Url.Action("AddCustomTag")',
+                type: 'GET',
+                data: { tagLabel: customTagInput.value },
+                success: function (result) {
+                    console.log("Custom Tag added : ", result);
+                    updateCustomTags();
+                    disableCheckboxes(false);
+                }
+            });
+        }
+
+    }
+
+    function removeCustomTag(e) {
+
+        disableCheckboxes(true);
+
+        $.ajax({
+            url: '@Url.Action("RemoveCustomTag")',
+            type: 'GET',
+            data: { tagId: this.getAttribute("data-id") },
+            success: function (result) {
+                console.log("Custom Tag removed : ", result);
+                updateCustomTags();
+                disableCheckboxes(false);
+            }
+        });
+    }
+
+    function updateCustomTags() {
+
+        $.ajax({
+            url: '@Url.Action("AfficheCustomTags")',
+            type: 'GET',
+            dataType: 'html',
+            success: function (result) {
+                $('#custom-tags').html(result);
+                console.log("Custom tags updated");
+
+                removeCustomTagButs = document.querySelectorAll('.remove-custom-tag');
+                for (var i = 0, l = removeCustomTagButs.length; i < l; i++) {
+                    console.log(removeCustomTagButs[i]);
+                    removeCustomTagButs[i].addEventListener("click", removeCustomTag, false);
+                }
+            }
+        });
+    }
+
     function disableCheckboxes(bool) {
         for (var i = 0, l = tags.length; i < l; i++)
             tags[i].disabled = bool;
     }
 </script>
-

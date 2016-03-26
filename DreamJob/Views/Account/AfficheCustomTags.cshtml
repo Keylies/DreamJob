@@ -1,0 +1,17 @@
+﻿@model DreamJob.ViewModels.HomeViewModel
+
+@{
+    if (Model.ListeDesCustomTags.Any())
+    {
+        <ul>
+            @foreach (var tag in Model.ListeDesCustomTags)
+                {
+                <li>@tag.label <button class="remove-custom-tag" data-id="@tag.id">X</button></li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Vous n'avez pas de filtre personnalisé</p>
+    }
+}

@@ -23,6 +23,7 @@ namespace DreamJob.Controllers.Home
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 vm.ListeDesTagsUtilisateur = dal.ObtientUtilisateurTags();
+                vm.ListeDesCustomTags = dal.ObtientCustomTags();
             }
 
             return View(vm);

@@ -15,7 +15,8 @@ namespace DreamJob.Controllers
             AccountViewModel vm = new AccountViewModel
             {
                 ListeDesTags = dal.ObtientTousLesTags(),
-                ListeDesTagsUtilisateur = dal.ObtientUtilisateurTags()
+                ListeDesTagsUtilisateur = dal.ObtientUtilisateurTags(),
+                ListeDesCustomTags = dal.ObtientCustomTags()
             };
             return View(vm);
         }
@@ -32,6 +33,31 @@ namespace DreamJob.Controllers
             Dal dal = new Dal();
             var tagId = Int32.Parse(Request.QueryString["tagId"]);
             return dal.AddUserTag(tagId);
+        }
+
+        public int RemoveCustomTag()
+        {
+            Dal dal = new Dal();
+            var tagId = Int32.Parse(Request.QueryString["tagId"]);
+            return dal.RemoveCustomTag(tagId);
+        }
+
+        public int AddCustomTag()
+        {
+            Dal dal = new Dal();
+            var tagLabel = Request.QueryString["tagLabel"];
+            return dal.AddCustomTag(tagLabel);
+        }
+
+        public ActionResult AfficheCustomTags()
+        {
+            Dal dal = new Dal();
+            HomeViewModel vm = new HomeViewModel
+            {
+                ListeDesCustomTags = dal.ObtientCustomTags()
+            };
+
+            return PartialView(vm);
         }
     }
 }

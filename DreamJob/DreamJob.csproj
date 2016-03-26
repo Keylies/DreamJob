@@ -131,6 +131,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Article.cs" />
+    <Compile Include="Models\Custom_tags.cs" />
     <Compile Include="Models\Dal.cs" />
     <Compile Include="Models\DBEntities.cs" />
     <Compile Include="Models\Favoris.cs" />
@@ -151,6 +152,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\AfficheOffres.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\AfficheCustomTags.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

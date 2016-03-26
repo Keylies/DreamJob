@@ -45,6 +45,12 @@ namespace DreamJob.Models
             return context.Utilisateurs_has_tags.Where(u => u.id_user == user).ToList();
         }
 
+        public List<Custom_tags> ObtientCustomTags()
+        {
+            var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
+            return context.Custom_tags.Where(u => u.id_user == user).ToList();
+        }
+
         public void Favorise(int id)
         {
             var article = context.Article.FirstOrDefault(art => art.id==id);
@@ -143,5 +149,27 @@ namespace DreamJob.Models
             return context.SaveChanges();
         }
 
+        public int AddCustomTag(string tagLabel)
+        {
+            var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
+            Custom_tags customTag = new Custom_tags { id_user = user, label = tagLabel };
+
+            context.Custom_tags.Add(customTag);
+
+            return context.SaveChanges();
+        }
+
+        public int RemoveCustomTag(int tagId)
+        {
+            var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
+            var customTag = context.Custom_tags.Where(u => u.id_user == user && u.id == tagId);
+
+            foreach (var tag in customTag)
+            {
+                context.Custom_tags.Remove(tag);
+            }
+
+            return context.SaveChanges();
+        }
     }
 }
