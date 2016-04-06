@@ -108,6 +108,8 @@
         var favoris = "";
         var favori = "";
 
+        document.getElementById('date-sorting').style.display = "none";
+
         updateOffers();
 
         for (var i = 0, l = tags.length; i < l; i++)
@@ -116,7 +118,13 @@
         for (var i = 0, l = radioSortButs.length; i < l; i++)
             radioSortButs[i].addEventListener("change", function() {
                 sortMode = this.value;
-                console.log(sortMode);
+                if (sortMode != "date") {
+                    document.getElementById('date-sorting').style.display = "none";
+                } else {
+                    document.getElementById('date-sorting').style.display = "block";
+                }
+
+                updateOffers();
             });
 
         allOffersBut.addEventListener("click", allOffers, false);
