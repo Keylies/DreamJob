@@ -3,16 +3,13 @@
 
 @if (Model.Authentifie)
 {
-    <h3>
-        Bonjour @Model.Utilisateur.Prenom ! 
-    </h3>
-    @Html.ActionLink("Se deconnecter", "Deconnexion")
+    Response.Redirect("/");
 }
 else
 {
-    <p>
+    <h3>
         Veuillez vous authentifier pour pouvoir voter.
-    </p>
+    </h3>
     using (Html.BeginForm())
     {
         <div>
@@ -25,8 +22,9 @@ else
             @Html.PasswordFor(m => m.Utilisateur.MotDePasse)
             @Html.ValidationMessageFor(m => m.Utilisateur.MotDePasse)
         </div>
-        <input type="submit" value="Se connecter" />
         <br />
-        @Html.ActionLink("Créer un compte", "CreerCompte")
+        <input type="submit" value="Se connecter" />
+        <br /><br />
+        @Html.ActionLink("Créer un compte", "CreerCompte", new object { }, new { @class = "" })
     }
 }

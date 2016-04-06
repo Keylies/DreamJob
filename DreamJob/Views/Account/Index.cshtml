@@ -1,13 +1,12 @@
 ﻿@model DreamJob.ViewModels.AccountViewModel
 @{
-    Layout = null;
     <script src="~/scripts/jquery-2.2.1.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 }
 
 <h1>Mon compte</h1>
 
-<section>
+<div class="col-md-6">
     <h2>Choisir des filtres</h2>
 
     @{
@@ -19,7 +18,7 @@
             if (tagsUserIds.Contains(tag.id))
             {
                 <label for="@tag.label">@tag.label</label>
-                <input type="checkbox" id="@tag.label" name="tags" value="@tag.id" checked/>
+                <input type="checkbox" id="@tag.label" name="tags" value="@tag.id" checked />
             }
             else
             {
@@ -28,9 +27,9 @@
             }
         }
     }
-</section>
+</div>
 
-<section>
+<div class="col-md-6">
     <h2>Ajouter un filtre personnalisé</h2>
 
     <label for="custom-tag-input">Votre filtre</label>
@@ -43,7 +42,7 @@
         }
     </div>
 
-</section>
+</div>
 
 
 <script>
@@ -61,7 +60,7 @@
 
     for (var i = 0, l = removeCustomTagButs.length; i < l; i++)
         removeCustomTagButs[i].addEventListener("click", removeCustomTag, false);
-    
+
     function updateUserTags(e) {
 
         disableCheckboxes(true);

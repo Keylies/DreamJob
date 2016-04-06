@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Favoris\FavorisController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Global.asax.cs">
@@ -153,6 +154,8 @@
     <Content Include="Views\Home\AfficheOffres.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\AfficheCustomTags.cshtml" />
+    <Content Include="Views\Favoris\AfficheFavoris.cshtml" />
+    <Content Include="Views\Favoris\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -23,6 +23,7 @@ namespace DreamJob.Controllers.Home
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 vm.ListeDesTagsUtilisateur = dal.ObtientUtilisateurTags();
+                vm.ListeDesFavoris = dal.ObtientUtilisateurFavoris();
                 vm.ListeDesCustomTags = dal.ObtientCustomTags();
             }
 
@@ -70,21 +71,33 @@ namespace DreamJob.Controllers.Home
             var sortMode = Request.QueryString["sortMode"];
             var sortDirection = Request.QueryString["sortDirection"];
             var favori = Request.QueryString["favori"];
+            var range = !String.IsNullOrEmpty(Request.QueryString["range"]) ? int.Parse(Request.QueryString["range"]) : 3;
 
             if (!String.IsNullOrEmpty(tags))
-                vm.ListeDesArticles = dal.ObtientOffresFiltrees(tags, sortMode, sortDirection);
+                vm.ListeDesArticles = dal.ObtientOffresFiltrees(tags, sortMode, sortDirection, range);
             else
-                vm.ListeDesArticles = dal.ObtientTousLesArticles(sortMode, sortDirection);
+                vm.ListeDesArticles = dal.ObtientTousLesArticles(sortMode, sortDirection, range);
 
             if (!String.IsNullOrEmpty(favori))
             {
                 if (HttpContext.User.Identity.IsAuthenticated)
                 {
-                    dal.Favorise(Int32.Parse(favori));
-                    vm.InfoMessage = "L'offre a été ajoutée dans vos favoris avec succès";
+                    var result = dal.Favorise(Int32.Parse(favori));
+                    if (result == 1)
+                        vm.InfoMessage = "L'offre a été ajoutée dans vos favoris avec succès";
+                    else if (result == -1)
+                        vm.InfoMessage = "L'offre a été retirée de vos favoris avec succès";
+                    else
+                        vm.InfoMessage = "Une erreur s'est produite";
                 }
                 else
                     vm.InfoMessage = "Veuillez-vous connecter pour mettre cette offre en favori";
+            }
+
+            vm.Authentifie = HttpContext.User.Identity.IsAuthenticated;
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                vm.ListeDesFavoris = dal.ObtientUtilisateurFavoris();
             }
 
             return PartialView(vm);

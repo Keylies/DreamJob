@@ -10,6 +10,7 @@ namespace DreamJob.ViewModels
         public List<Models.Tags> ListeDesTags { get; set; }
         public List<Models.Utilisateurs_has_tags> ListeDesTagsUtilisateur { get; set; }
         public List<Models.Custom_tags> ListeDesCustomTags { get; set; }
+        public List<Favoris> ListeDesFavoris { get; set; }
         public Utilisateur Utilisateur { get; set; }
         public bool Authentifie { get; set; }
         public string InfoMessage { get; set; }
@@ -22,5 +23,12 @@ namespace DreamJob.ViewModels
         public List<Models.Custom_tags> ListeDesCustomTags { get; set; }
         public Utilisateur Utilisateur { get; set; }
         public bool Authentifie { get; set; }
+    }
+
+    public class FavorisViewModel
+    {
+        public List<Models.Article> ListeDesArticles { get; set; }
+        public List<Favoris> ListeDesFavoris { get; set; }
+        public string InfoMessage { get; set; }
     }
 }

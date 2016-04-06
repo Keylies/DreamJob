@@ -20,9 +20,9 @@ namespace DreamJob.Models
             context = new DBEntities();
         }
 
-        public List<Article> ObtientTousLesArticles(string sortMode = "pertinence", string sortDirection = "desc")
+        public List<Article> ObtientTousLesArticles(string sortMode = "pertinence", string sortDirection = "desc", int range = 3)
         {
-            var date = DateTime.Now.AddMonths(-3);
+            var date = DateTime.Now.AddMonths(-(range));
 
             if (sortMode == "pertinence")
             {
@@ -37,9 +37,9 @@ namespace DreamJob.Models
             }
         }
 
-        public List<Article> ObtientOffresFiltrees(string jsonTags, string sortMode = "pertinence", string sortDirection = "desc")
+        public List<Article> ObtientOffresFiltrees(string jsonTags, string sortMode = "pertinence", string sortDirection = "desc", int range = 3)
         {
-            var date = DateTime.Now.AddMonths(-3);
+            var date = DateTime.Now.AddMonths(-(range));
             List<string> filters = JArray.Parse(jsonTags).ToObject<List<string>>();
 
             if(sortMode == "pertinence")
@@ -79,9 +79,13 @@ namespace DreamJob.Models
             return context.Custom_tags.Where(u => u.id_user == user).ToList().Count != 0;
         }
 
+        public List<Favoris> ObtientUtilisateurFavoris()
+        {
+            var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
+            return context.Favoris.Where(u => u.id_user == user).ToList();
+        }
 
-
-        public void Favorise(int id)
+        public int Favorise(int id)
         {
             var article = context.Article.FirstOrDefault(art => art.id == id);
             var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
@@ -97,13 +101,15 @@ namespace DreamJob.Models
                     context.Favoris.Remove(f);
                 }
 
-                context.SaveChanges();
-            } else
+                return context.SaveChanges() == 1 ? -1 : 0;
+            }
+            else
             {
                 article.nb_favoris += 1;
+                context.SaveChanges();
                 Favoris favori = new Favoris { id_user = user, id_article = id };
                 context.Favoris.Add(favori);
-                context.SaveChanges();
+                return context.SaveChanges() == 1 ? 1 : 0;
             }
            
         }
@@ -170,7 +176,7 @@ namespace DreamJob.Models
             //}
             //return false;
 
-            return context.Favoris.Where(f => f.id_user == user && f.id_article == id) != null;
+            return context.Favoris.FirstOrDefault(f => f.id_user == user && f.id_article == id) != null;
 
         }
 

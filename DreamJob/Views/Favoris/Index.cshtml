@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Favoris";
+}
+
+<h2>Favoris</h2>
+
+<div id="favoris">
+    @{
+        Html.RenderAction("AfficheFavoris");
+    }
+</div>
+
+<script>
+    var favoris = "";
+    var favori = "";
+
+    refreshFavoris();
+
+    function setFavori(e) {
+        favori = this.getAttribute("data-id");
+        updateFavoris();
+    }
+
+    function refreshFavoris() {
+
+        favoris = document.querySelectorAll('.favori');
+        favori = "";
+        for (var i = 0, l = favoris.length; i < l; i++)
+            favoris[i].addEventListener("click", setFavori, false);
+    }
+
+    function updateFavoris(e) {
+
+        console.log("Favori", favori);
+
+        $.ajax({
+            url: '@Url.Action("AfficheFavoris")',
+            type: 'GET',
+            dataType: 'html',
+            contentType: "application/json; charset=utf-8",
+            data: {
+                favori: favori
+            },
+            success: function (result) {
+                $('#favoris').html(result);
+                refreshFavoris();
+            }
+        });
+    }
+</script>

@@ -35,7 +35,7 @@ namespace DreamJob.Controllers.Login
                 var name = HttpContext.User;
                 viewModel.Utilisateur = dal.ObtenirUtilisateurParId(HttpContext.User.Identity.Name);
             }
-            return PartialView(viewModel);
+            return View(viewModel);
         }
 
         // Route POST vers la vue partielle d'authentification (appelee lors d'une connexion)
@@ -53,7 +53,7 @@ namespace DreamJob.Controllers.Login
                     FormsAuthentication.SetAuthCookie(utilisateur.Id.ToString(), false);
                     viewModel.Authentifie = true;
                     // reactualiser la vue partielle d'indentification
-                    return PartialView(viewModel);
+                    return View(viewModel);
                 }
                 // Si l'utilisateur n'est pas dans la base de donnee ou que le mot de passe est incorrect, envoyer une erreur
                 ModelState.AddModelError("Utilisateur.Prenom", "Prénom et/ou mot de passe incorrect(s)");

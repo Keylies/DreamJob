@@ -3,37 +3,47 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
+    <div class="container-fluid">
+        <div class="row header">
+            <ul class="nav nav-pills">
+                <li>
+                    @Html.ActionLink("Accueil", "Index", "Home", new object { }, new { @class = "" })
+                </li>
+                @if (@User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        @Html.ActionLink("Mon compte", "Index", "Account", new object { }, new { @class = "" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Se déconnecter", "Deconnexion", "Login", new object { }, new { @class = "" })
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink("Se connecter", "Index", "Login", new object { }, new { @class = "" })
+                    </li>
+                }
+            </ul>
         </div>
     </div>
-
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>LEBOUCHER Clément / LE BESCOND Baptiste</p>
         </footer>
     </div>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/scripts/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 </body>
 </html>

@@ -1,8 +1,33 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #EEE;
 }
 
+hr{
+    border-top: 1px solid #DDD;
+}
+
+h1{
+    color:#EA804C;
+}
+
+h2{
+    color: #EA804C;
+}
+
+a{
+    color:#A69A90;
+}
+
+.header{
+    padding:30px;
+    background-color:#4A403D;
+}
+
+.header .nav-pills > li.active > a {
+    background-color:#EA804C;
+    color:black;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -16,3 +41,41 @@ textarea {
     max-width: 280px;
 }
 
+.offre{
+    padding: 20px;
+    margin: 10px;
+    border: 2px solid #DDD;
+    border-radius:10px;
+    background-color:white;
+}
+
+.offre .titre{
+    text-align:center;
+}
+
+.offre .favori{
+    text-align:center;
+    color:rgba(237, 237, 55, 0.63);
+    cursor:pointer;
+}
+
+#sort-asc, #sort-desc{
+    cursor:pointer;
+    vertical-align:middle;
+}
+
+#sort-asc{
+    height:20px;
+}
+#sort-desc{
+    height: 45px;
+}
+
+.btn-primary, .btn-primary:focus, .btn-primary:hover, .btn-primary:active:hover{
+    background-color:#EA804C;
+    border-color:#4A403D;
+}
+
+.filters-sidebar {
+    position: fixed;
+}
