@@ -20,18 +20,40 @@ namespace DreamJob.Models
             context = new DBEntities();
         }
 
-        public List<Article> ObtientTousLesArticles()
+        public List<Article> ObtientTousLesArticles(string sortMode = "pertinence", string sortDirection = "desc")
         {
             var date = DateTime.Now.AddMonths(-3);
-            return context.Article.OrderByDescending(a => a.created).Where(a => DateTime.Compare(a.created,date)==1).ToList();
+
+            if (sortMode == "pertinence")
+            {
+                return context.Article.OrderByDescending(a => a.nb_favoris).Where(a => DateTime.Compare(a.created, date) == 1).ToList();
+            }
+            else
+            {
+                if (sortDirection == "desc")
+                    return context.Article.OrderByDescending(a => a.created).Where(a => DateTime.Compare(a.created, date) == 1).ToList();
+                else
+                    return context.Article.OrderBy(a => a.created).Where(a => DateTime.Compare(a.created, date) == 1).ToList();
+            }
         }
 
-        public List<Article> ObtientOffresFiltrees(string jsonTags)
+        public List<Article> ObtientOffresFiltrees(string jsonTags, string sortMode = "pertinence", string sortDirection = "desc")
         {
             var date = DateTime.Now.AddMonths(-3);
             List<string> filters = JArray.Parse(jsonTags).ToObject<List<string>>();
 
-            return context.Article.AsEnumerable().Where(a => filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
+            if(sortMode == "pertinence")
+            {
+                return context.Article.AsEnumerable().OrderByDescending(a => a.nb_favoris).Where(a => filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
+            }
+            else
+            {
+                if (sortDirection == "desc")
+                    return context.Article.AsEnumerable().OrderByDescending(a => a.created).Where(a => filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
+                else
+                    return context.Article.AsEnumerable().OrderBy(a => a.created).Where(a => filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
+            }
+           
         }
 
         public List<Tags> ObtientTousLesTags()
@@ -51,15 +73,39 @@ namespace DreamJob.Models
             return context.Custom_tags.Where(u => u.id_user == user).ToList();
         }
 
+        public bool HasCustomTags()
+        {
+            var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
+            return context.Custom_tags.Where(u => u.id_user == user).ToList().Count != 0;
+        }
+
+
+
         public void Favorise(int id)
         {
-            var article = context.Article.FirstOrDefault(art => art.id==id);
-            article.nb_favoris += 1;
+            var article = context.Article.FirstOrDefault(art => art.id == id);
+            var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
 
-            Favoris favori = new Favoris { id_user = Int32.Parse(HttpContext.Current.User.Identity.Name), id_article = id };
-            context.Favoris.Add(favori);
+            if ( hasFavorised(id) )
+            {
+                article.nb_favoris -= 1;
+                context.SaveChanges();
+                var userFavori = context.Favoris.Where(f => f.id_user == user && f.id_article == id);
 
-            context.SaveChanges();
+                foreach (var f in userFavori)
+                {
+                    context.Favoris.Remove(f);
+                }
+
+                context.SaveChanges();
+            } else
+            {
+                article.nb_favoris += 1;
+                Favoris favori = new Favoris { id_user = user, id_article = id };
+                context.Favoris.Add(favori);
+                context.SaveChanges();
+            }
+           
         }
 
         public void Unfavorise(int id)
@@ -114,15 +160,17 @@ namespace DreamJob.Models
         // Check if user has voted for an article
         public Boolean hasFavorised(int id)
         {
-            var article = context.Article.FirstOrDefault(art => art.id == id);
+            //var article = context.Article.FirstOrDefault(art => art.id == id);
             var user = Int32.Parse(HttpContext.Current.User.Identity.Name);
-            var user_votes = context.Favoris.Where(v => v.id_user == user);
-            foreach (var user_vote in user_votes)
-            {
-                if (user_vote.id_article == article.id)
-                    return true;
-            }
-            return false;
+            //var user_votes = context.Favoris.Where(v => v.id_user == user);
+            //foreach (var user_vote in user_votes)
+            //{
+               // if (user_vote.id_article == article.id)
+                    //return true;
+            //}
+            //return false;
+
+            return context.Favoris.Where(f => f.id_user == user && f.id_article == id) != null;
 
         }
 

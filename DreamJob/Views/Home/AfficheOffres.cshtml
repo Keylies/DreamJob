@@ -1,13 +1,14 @@
 ﻿@model DreamJob.ViewModels.HomeViewModel
 
+<p class="info-message">@Model.InfoMessage</p>
+
 <table>
     <tr>
-        <th>Created</th>
+        <th>Date</th>
         <th>Title</th>
         <th>Contenu</th>
         <th>Source</th>
-        <th>Favoris</th>
-        <th></th>
+        <th>Favori</th>
     </tr>
     @{
         if (Model.ListeDesArticles.Any() )
@@ -15,12 +16,11 @@
             foreach (var article in Model.ListeDesArticles)
             {
                 <tr>
-                    <td> @article.created.ToString("le d MMM yyyy")</td>
+                    <td>@article.created.ToString("le d MMM yyyy")</td>
                     <td><a href=@article.link target="_blank">@article.title</a></td>
                     <td>@article.body</td>
-                    <td> @article.source</td>
-                    <td> <button type="button" name="favori" value="Enregistrer cette annonce" onclick="location.href='@Url.Action("Favorise", "Home")?id=@article.id'" />Favori</td>
-                    <td> </td>
+                    <td>@article.source</td>
+                    <td><span class="favori fa fa-star" data-id="@article.id"></span></td>
                 </tr>
             }
         }

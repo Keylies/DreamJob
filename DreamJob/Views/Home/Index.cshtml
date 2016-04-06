@@ -11,6 +11,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Titre</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
 </head>
 <body>
     @*@Html.Action("Index", "Login")*@
@@ -72,6 +73,22 @@
     <section>
         <h2>Offres d'emploi</h2>
 
+        <div>
+            <label for="radio-pertinence">Pertinence</label>
+            <input type="radio" id="radio-pertinence" name="sort" value="pertinence" checked>
+            <label for="radio-date">Date</label>
+            <input type="radio" id="radio-sort" name="sort" value="date">
+        </div>
+
+        <div id="date-sorting">
+            <div id="sort-asc">
+                <span class="fa fa-sort-asc fa-2x">Asc</span>
+            </div>
+            <div id="sort-desc">
+                <span class="fa fa-sort-desc fa-2x">Desc</span>
+            </div>
+        </div>
+
         <div id="offers">
             @{
                 Html.RenderAction("AfficheOffres");
@@ -83,13 +100,42 @@
 
         var tags = document.getElementsByName('tags');
         var allOffersBut = document.getElementById('all-offers');
+        var radioSortButs = document.getElementsByName('sort');
+        var sortAsc = document.getElementById('sort-asc');
+        var sortDesc = document.getElementById('sort-desc');
+        var sortMode = "pertinence";
+        var sortDirection = 'asc';
+        var favoris = "";
+        var favori = "";
 
         updateOffers();
 
         for (var i = 0, l = tags.length; i < l; i++)
             tags[i].addEventListener("change", updateOffers, false);
 
+        for (var i = 0, l = radioSortButs.length; i < l; i++)
+            radioSortButs[i].addEventListener("change", function() {
+                sortMode = this.value;
+                console.log(sortMode);
+            });
+
         allOffersBut.addEventListener("click", allOffers, false);
+
+        sortAsc.addEventListener("click", function (e) {
+            sortDirection = 'asc';
+            updateOffers();
+        });
+
+        sortDesc.addEventListener("click", function (e) {
+            sortDirection = 'desc';
+            updateOffers();
+        });
+
+        function setFavori(e) {
+
+            favori = this.getAttribute("data-id");
+            updateOffers();
+        }
 
         function updateOffers(e) {
 
@@ -103,18 +149,27 @@
             if (filterValues.length == 0) filterValues = null;
             else filterValues = JSON.stringify(filterValues);
 
-            console.log(filterValues);
+            console.log("Valeurs de filtrage", filterValues);
+            console.log("Tri par date", sortDirection);
+            console.log("Favori", favori);
 
             $.ajax({
                 url: '@Url.Action("AfficheOffres")',
                 type: 'GET',
                 dataType: 'html',
                 contentType: "application/json; charset=utf-8",
-                data: { tags : filterValues },
+                data: {
+                    tags: filterValues,
+                    sortMode: sortMode,
+                    sortDirection: sortDirection,
+                    favori: favori
+                },
                 success: function (result) {
+                    console.log(result);
                     $('#offers').html(result);
                     console.log("Offers updated");
                     disableCheckboxes(false);
+                    refreshFavoris();
                 }
             });
         }
@@ -125,6 +180,14 @@
                 tags[i].checked = false;
 
             updateOffers();
+        }
+
+        function refreshFavoris() {
+
+            favoris = document.querySelectorAll('.favori');
+            favori = "";
+            for (var i = 0, l = favoris.length; i < l; i++)
+                favoris[i].addEventListener("click", setFavori, false);
         }
 
         function disableCheckboxes(bool) {

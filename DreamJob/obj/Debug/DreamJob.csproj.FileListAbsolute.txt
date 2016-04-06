@@ -25,7 +25,6 @@ C:\Users\Clément\Source\Repos\DreamJob\DreamJob\obj\Debug\DreamJob.dll
 C:\Users\Clément\Source\Repos\DreamJob\DreamJob\obj\Debug\DreamJob.pdb
 C:\Users\Clément\Source\Repos\DreamJob\DreamJob\bin\Newtonsoft.Json.dll
 C:\Users\Clément\Source\Repos\DreamJob\DreamJob\bin\Newtonsoft.Json.xml
-C:\Users\Clément\Source\Repos\DreamJob\DreamJob\bin\NinjaNye.SearchExtensions.dll
 C:\Users\Clément\Documents\Visual Studio 2015\Projects\DreamJob\DreamJob\obj\Debug\DreamJob.csprojResolveAssemblyReference.cache
 C:\Users\Clément\Documents\Visual Studio 2015\Projects\DreamJob\DreamJob\obj\Debug\DreamJob.dll
 C:\Users\Clément\Documents\Visual Studio 2015\Projects\DreamJob\DreamJob\obj\Debug\DreamJob.pdb
@@ -55,3 +54,5 @@ C:\Users\Clément\Documents\Visual Studio 2015\Projects\DreamJob\DreamJob\bin\Sy
 C:\Users\Clément\Documents\Visual Studio 2015\Projects\DreamJob\DreamJob\bin\System.Web.Mvc.xml
 C:\Users\Clément\Documents\Visual Studio 2015\Projects\DreamJob\DreamJob\bin\EntityFramework.Extended.dll
 C:\Users\Clément\Documents\Visual Studio 2015\Projects\DreamJob\DreamJob\bin\EntityFramework.Extended.xml
+C:\Users\Clément\Source\Repos\DreamJob\DreamJob\bin\EntityFramework.Extended.dll
+C:\Users\Clément\Source\Repos\DreamJob\DreamJob\bin\EntityFramework.Extended.xml

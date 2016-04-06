@@ -65,23 +65,26 @@ namespace DreamJob.Controllers.Home
         public ActionResult AfficheOffres()
         {
             Dal dal = new Dal();
-            HomeViewModel vm;
+            HomeViewModel vm = new HomeViewModel();
             var tags = Request.QueryString["tags"];
+            var sortMode = Request.QueryString["sortMode"];
+            var sortDirection = Request.QueryString["sortDirection"];
+            var favori = Request.QueryString["favori"];
 
             if (!String.IsNullOrEmpty(tags))
+                vm.ListeDesArticles = dal.ObtientOffresFiltrees(tags, sortMode, sortDirection);
+            else
+                vm.ListeDesArticles = dal.ObtientTousLesArticles(sortMode, sortDirection);
+
+            if (!String.IsNullOrEmpty(favori))
             {
-                System.Diagnostics.Debug.WriteLine("Articles filtrés");
-                vm = new HomeViewModel
+                if (HttpContext.User.Identity.IsAuthenticated)
                 {
-                    ListeDesArticles = dal.ObtientOffresFiltrees(tags)
-                };
-            }
-            else {
-                System.Diagnostics.Debug.WriteLine("Pas de tags, tous les articles");
-                vm = new HomeViewModel
-                {
-                    ListeDesArticles = dal.ObtientTousLesArticles()
-                };
+                    dal.Favorise(Int32.Parse(favori));
+                    vm.InfoMessage = "L'offre a été ajoutée dans vos favoris avec succès";
+                }
+                else
+                    vm.InfoMessage = "Veuillez-vous connecter pour mettre cette offre en favori";
             }
 
             return PartialView(vm);

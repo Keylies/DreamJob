@@ -12,6 +12,7 @@ namespace DreamJob.ViewModels
         public List<Models.Custom_tags> ListeDesCustomTags { get; set; }
         public Utilisateur Utilisateur { get; set; }
         public bool Authentifie { get; set; }
+        public string InfoMessage { get; set; }
     }
 
     public class AccountViewModel
