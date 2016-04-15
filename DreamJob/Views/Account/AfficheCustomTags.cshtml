@@ -6,7 +6,7 @@
         <ul>
             @foreach (var tag in Model.ListeDesCustomTags)
                 {
-                <li>@tag.label <button class="remove-custom-tag" data-id="@tag.id">X</button></li>
+                <li>@tag.label <span class="remove-custom-tag fa fa-times" data-id="@tag.id"></span></li>
             }
         </ul>
     }

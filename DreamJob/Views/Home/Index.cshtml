@@ -6,7 +6,7 @@
 
     <h1>DreamJob</h1>
     <hr />
-   <div class="col-md-3">
+   <div class="col-md-3 offers-filters">
 
     <h3>Filtres de recherche</h3>
     <hr />
@@ -24,19 +24,19 @@
 
                     if (tagsUserIds.Contains(tag.id))
                     {
+                        <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" checked />
                         <label for="@tag.label">@tag.label</label>
-                            <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" checked />
                     }
                     else
                     {
+                        <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
                         <label for="@tag.label">@tag.label</label>
-                            <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
                     }
                 }
                 else
                 {
-                    <label for="@tag.label">@tag.label</label>
-                        <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
+                    <input type="checkbox" id="@tag.label" name="tags" value="@tag.label" />
+                    <label for="@tag.label">@tag.label</label> 
                 }
             }
         }
@@ -51,8 +51,9 @@
 
             foreach (var customTag in Model.ListeDesCustomTags)
             {
-                <label for="@customTag.label">@customTag.label</label>
-                    <input type="checkbox" id="@customTag.label" name="tags" value="@customTag.label" checked />
+                <br />
+                <input type="checkbox" id="@customTag.label" name="tags" value="@customTag.label" checked />
+                <label for="@customTag.label">@customTag.label</label>    
             }
         }
     }
@@ -61,7 +62,7 @@
 
 <div class="col-md-9">
     <h2>Offres d'emploi</h2>
-    <div>
+    <div class="offers-sorting">
         <label for="radio-pertinence">Pertinence</label>
         <input type="radio" id="radio-pertinence" name="sort" value="pertinence" checked>
         <label for="radio-date">Date</label>
@@ -101,7 +102,7 @@
         document.getElementById('sort-asc').style.display = "none";
         document.getElementById('sort-desc').style.display = "none";
         range = dateRange.value;
-        rangeResult.innerHTML = dateRange.value + " mois";
+        rangeResult.innerHTML = "< " + dateRange.value + " mois";
 
         updateOffers();
 
@@ -136,7 +137,7 @@
 
         dateRange.addEventListener('change', function () {
             range = dateRange.value;
-            rangeResult.innerHTML = dateRange.value + " mois";
+            rangeResult.innerHTML = "< " + dateRange.value + " mois";
             updateOffers();
         });
 

@@ -14,16 +14,16 @@
 
         foreach (var tag in Model.ListeDesTags)
         {
-
+            <br />
             if (tagsUserIds.Contains(tag.id))
             {
-                <label for="@tag.label">@tag.label</label>
                 <input type="checkbox" id="@tag.label" name="tags" value="@tag.id" checked />
+                <label for="@tag.label">@tag.label</label>
             }
             else
             {
-                <label for="@tag.label">@tag.label</label>
                 <input type="checkbox" id="@tag.label" name="tags" value="@tag.id" />
+                <label for="@tag.label">@tag.label</label>
             }
         }
     }
@@ -34,7 +34,7 @@
 
     <label for="custom-tag-input">Votre filtre</label>
     <input type="text" id="custom-tag-input" name="custom-tag-input" />
-    <button id="add-custom-tag">Créer</button>
+    <button id="add-custom-tag" class="btn btn-primary">Créer</button>
 
     <div id="custom-tags">
         @{

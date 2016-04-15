@@ -1,6 +1,15 @@
-﻿body {
+﻿html,
+body {
+    height: 100%;
+}
+
+body {
     padding-bottom: 20px;
     background-color: #EEE;
+}
+
+.body-content {
+    min-height: 100%;
 }
 
 hr{
@@ -55,7 +64,7 @@ textarea {
 
 .offre .favori{
     text-align:center;
-    color:rgba(237, 237, 55, 0.63);
+    color:#EA804C;
     cursor:pointer;
 }
 
@@ -78,4 +87,58 @@ textarea {
 
 .filters-sidebar {
     position: fixed;
+}
+
+.info-message {
+    font-size: 150%;
+    text-align: center;
+    color: darkred;
+}
+
+.offers-filters label,
+#all-offers {
+    margin-bottom: .5em;
+}
+
+.offers-sorting input {
+    margin-right: .5em;
+}
+
+.nav > li > a {
+    font-size: 130%;
+    color: wheat;
+}
+
+.nav > li > a:hover {
+    color: black;
+}
+
+label::first-letter {
+    text-transform: uppercase;
+}
+
+footer {
+    height: 35px;
+    line-height: 35px;
+    background-color: rgb(245, 245, 245);
+    width: 100%;
+    text-align: center;
+}
+
+footer > p {
+    margin-bottom: 0;
+}
+
+#custom-tag-input {
+    margin-right: 25px;
+}
+
+.remove-custom-tag {
+    color: darkred;
+}
+
+.create-account {
+    font-size: 160%;
+    text-decoration: underline;
+    color: inherit;
 }

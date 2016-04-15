@@ -1,6 +1,5 @@
 ﻿@model DreamJob.ViewModels.HomeViewModel
 
-
 @if (Model.Authentifie)
 {
     Response.Redirect("/");
@@ -8,23 +7,24 @@
 else
 {
     <h3>
-        Veuillez vous authentifier pour pouvoir voter.
+        Se connecter
     </h3>
+    <p>Se connecter vous permet d'ajouter des filtres de recherche personnalisés ainsi que de retrouver vos offres favorites !</p>
     using (Html.BeginForm())
     {
-        <div>
+        <div class="form-group">
             @Html.LabelFor(m => m.Utilisateur.Prenom)
-            @Html.TextBoxFor(m => m.Utilisateur.Prenom)
+            @Html.TextBoxFor(m => m.Utilisateur.Prenom, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.Utilisateur.Prenom)
         </div>
-        <div>
+        <div class="form-group">
             @Html.LabelFor(m => m.Utilisateur.MotDePasse)
-            @Html.PasswordFor(m => m.Utilisateur.MotDePasse)
+            @Html.PasswordFor(m => m.Utilisateur.MotDePasse, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.Utilisateur.MotDePasse)
         </div>
         <br />
-        <input type="submit" value="Se connecter" />
+        <input type="submit" value="Se connecter" class="btn btn-primary"/>
         <br /><br />
-        @Html.ActionLink("Créer un compte", "CreerCompte", new object { }, new { @class = "" })
+        @Html.ActionLink("Créer un compte", "CreerCompte", new object { }, new { @class = "create-account" })
     }
 }

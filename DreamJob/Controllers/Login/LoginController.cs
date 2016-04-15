@@ -1,9 +1,5 @@
 ﻿using DreamJob.Models;
 using DreamJob.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -59,7 +55,7 @@ namespace DreamJob.Controllers.Login
                 ModelState.AddModelError("Utilisateur.Prenom", "Prénom et/ou mot de passe incorrect(s)");
             }
             // Si le format n'est pas valide, renvoyer la ve partielle d'identification avec une erreur
-            return PartialView(viewModel);
+            return View(viewModel);
         }
 
         // Route GET pour creer un compte (l'utilisateur a clique sur le lien pour creer un nouveau compte)

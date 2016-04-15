@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 06 Avril 2016 à 12:37
+-- Généré le :  Ven 15 Avril 2016 à 15:51
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `custom_tags` (
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `favoris` (
   PRIMARY KEY (`id`,`id_user`,`id_article`),
   KEY `id_user` (`id_user`),
   KEY `id_article` (`id_article`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Contenu de la table `favoris`
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `favoris` (
 
 INSERT INTO `favoris` (`id`, `id_user`, `id_article`) VALUES
 (4, 4, 24),
-(10, 4, 31);
+(12, 4, 31);
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Contenu de la table `tags`
@@ -120,7 +120,10 @@ CREATE TABLE IF NOT EXISTS `tags` (
 INSERT INTO `tags` (`id`, `label`) VALUES
 (1, 'projet'),
 (2, 'webdesigner'),
-(3, 'mobile');
+(4, 'oracle'),
+(5, 'php'),
+(7, 'c#'),
+(8, 'javascript');
 
 -- --------------------------------------------------------
 
@@ -134,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Prenom_UNIQUE` (`Prenom`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Contenu de la table `utilisateurs`
@@ -143,7 +146,8 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
 INSERT INTO `utilisateurs` (`Prenom`, `MotDePasse`, `Id`) VALUES
 ('baptiste', 'CB-E5-E8-21-0C-03-95-6C-5F-F3-AC-E2-1F-6C-69-08', 2),
 ('clement', '14-5B-22-78-25-5F-20-8A-5B-79-0F-84-F0-DA-60-52', 3),
-('test', '56-63-58-BA-13-A6-A0-1D-99-FE-54-92-71-16-9B-98', 4);
+('test', '56-63-58-BA-13-A6-A0-1D-99-FE-54-92-71-16-9B-98', 4),
+('test2', '0B-D1-EA-9D-97-DF-97-CE-A2-C1-51-F1-40-48-C1-AD', 5);
 
 -- --------------------------------------------------------
 
@@ -158,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs_has_tags` (
   PRIMARY KEY (`id`,`id_user`,`id_tag`),
   KEY `id_user` (`id_user`),
   KEY `id_tag` (`id_tag`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Contraintes pour les tables exportées

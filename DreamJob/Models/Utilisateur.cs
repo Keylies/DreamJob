@@ -17,12 +17,12 @@ namespace DreamJob.Models
         // Annotation signalant que ce champ ne peux pas etre vide
         [Required]
         // Annotation interdisant d'utiliser un nom d'utilisateur qui se trouve deja dans la base
-        [Remote("doesUserNameExist", "Login", HttpMethod = "POST", ErrorMessage = "Ce prénom existe déjà dans la base. Merci d'ajouter l'initiale de votre nom.")]
+        [Remote("doesUserNameExist", "Login", HttpMethod = "POST", ErrorMessage = "Ce prénom existe déjà.")]
         // Annnotation precisant le nom du champ qui sera affiche dans le formulaire
         [Display(Name = "Prénom")] 
         public string Prenom { get; set; }
 
-        [Required(ErrorMessage="Il faut mettre un mot de passe !!!!!!")]
+        [Required(ErrorMessage="Un mot de passe est requis.")]
         [Display(Name = "Mot de passe")]
         public string MotDePasse { get; set; }
     }

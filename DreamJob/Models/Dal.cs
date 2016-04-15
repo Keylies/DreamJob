@@ -44,14 +44,14 @@ namespace DreamJob.Models
 
             if(sortMode == "pertinence")
             {
-                return context.Article.AsEnumerable().OrderByDescending(a => a.nb_favoris).Where(a => filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
+                return context.Article.AsEnumerable().OrderByDescending(a => a.nb_favoris).Where(a => DateTime.Compare(a.created, date) == 1 && filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
             }
             else
             {
                 if (sortDirection == "desc")
-                    return context.Article.AsEnumerable().OrderByDescending(a => a.created).Where(a => filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
+                    return context.Article.AsEnumerable().OrderByDescending(a => a.created).Where(a => DateTime.Compare(a.created, date) == 1 && filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
                 else
-                    return context.Article.AsEnumerable().OrderBy(a => a.created).Where(a => filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
+                    return context.Article.AsEnumerable().OrderBy(a => a.created).Where(a => DateTime.Compare(a.created, date) == 1 && filters.Any(f => a.title.ToLower().Contains(f) || a.body.ToLower().Contains(f))).ToList();
             }
            
         }
